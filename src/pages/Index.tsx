@@ -3,17 +3,25 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Icon from "@/components/ui/icon";
 
 export default function Index() {
   const [activeSection, setActiveSection] = useState("home");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
       setActiveSection(sectionId);
+      setMobileMenuOpen(false);
     }
+  };
+
+  const handleSteamLogin = () => {
+    const returnUrl = encodeURIComponent(window.location.origin);
+    window.location.href = `https://steamcommunity.com/openid/login?openid.ns=http://specs.openid.net/auth/2.0&openid.mode=checkid_setup&openid.return_to=${returnUrl}/auth/steam/callback&openid.realm=${returnUrl}&openid.identity=http://specs.openid.net/auth/2.0/identifier_select&openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select`;
   };
 
   const privileges = [
@@ -120,13 +128,49 @@ export default function Index() {
                 </button>
               ))}
             </div>
-            <Button
-              onClick={() => window.open("https://steamcommunity.com/openid/login", "_blank")}
-              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 font-orbitron font-semibold"
-            >
-              <Icon name="LogIn" className="mr-2" size={18} />
-              Войти через Steam
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                onClick={handleSteamLogin}
+                className="hidden md:flex bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 font-orbitron font-semibold"
+              >
+                <Icon name="LogIn" className="mr-2" size={18} />
+                Войти через Steam
+              </Button>
+              <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon" className="md:hidden text-purple-400">
+                    <Icon name="Menu" size={24} />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="bg-gradient-to-b from-[#0a0a0f] to-[#0f0f1a] border-purple-500/20">
+                  <div className="flex flex-col gap-6 mt-8">
+                    {["home", "servers", "privileges", "donate", "contacts", "faq"].map((section) => (
+                      <button
+                        key={section}
+                        onClick={() => scrollToSection(section)}
+                        className={`font-inter font-medium text-left transition-all hover:text-purple-400 text-lg ${
+                          activeSection === section ? "text-purple-400" : "text-gray-300"
+                        }`}
+                      >
+                        {section === "home" && "Главная"}
+                        {section === "servers" && "Серверы"}
+                        {section === "privileges" && "Привилегии"}
+                        {section === "donate" && "Донат"}
+                        {section === "contacts" && "Контакты"}
+                        {section === "faq" && "FAQ"}
+                      </button>
+                    ))}
+                    <Button
+                      onClick={handleSteamLogin}
+                      className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 font-orbitron font-semibold w-full"
+                    >
+                      <Icon name="LogIn" className="mr-2" size={18} />
+                      Войти через Steam
+                    </Button>
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
         </div>
       </nav>
