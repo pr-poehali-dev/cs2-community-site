@@ -1,0 +1,23 @@
+{
+  "tests": [
+    {
+      "name": "Create purchase request",
+      "method": "POST",
+      "path": "/",
+      "headers": {
+        "X-Steam-Id": "76561198123456789"
+      },
+      "body": {
+        "privilege_type": "Low",
+        "duration_type": "2weeks",
+        "payment_proof": "Payment confirmation screenshot"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true,
+        "request_id": "number"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

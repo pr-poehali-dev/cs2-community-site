@@ -1,0 +1,5 @@
+export const API_URLS = {
+  auth: 'https://functions.poehali.dev/c4751db3-c229-4c79-a750-86fe8bb0216d',
+  admin: 'https://functions.poehali.dev/c7e3ba7e-2c18-4b3f-a258-79c4ee70cc52',
+  purchase: 'https://functions.poehali.dev/08c3bccb-576c-4b46-b50a-b193082f00da'
+};

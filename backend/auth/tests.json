@@ -1,0 +1,35 @@
+{
+  "tests": [
+    {
+      "name": "Steam callback with valid OpenID",
+      "method": "POST",
+      "path": "/callback",
+      "body": {
+        "openid_response": "https://steamcommunity.com/openid/id/76561198123456789",
+        "steam_name": "TestPlayer",
+        "steam_avatar": "https://example.com/avatar.jpg"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "user": {
+          "steam_id": "string",
+          "steam_name": "string",
+          "is_admin": "boolean"
+        }
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Get user by Steam ID",
+      "method": "GET",
+      "path": "/user/76561198123456789",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "user": {
+          "steam_id": "string"
+        }
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
